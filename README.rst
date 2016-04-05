@@ -7,12 +7,14 @@ intended to be easily embeddable into C programs, with a C API similar in
 spirit to Lua's.
 
 Duktape supports the full E5/E5.1 feature set including errors, Unicode
-strings, and regular expressions, as well as a subset of E6 features (e.g.
-Proxy objects).  Duktape also provides a number of custom features such as
-error tracebacks, additional data types for better C integration, combined
-reference counting and mark-and sweep garbage collector, object finalizers,
-co-operative threads a.k.a. coroutines, tail calls, built-in logging and
-module frameworks, a built-in debugger protocol, and so on.
+strings, and regular expressions, a subset of E6 features (e.g. Proxy
+objects), Khronos/ES6 ArrayBuffer/TypedView, and Node.js Buffer bindings.
+
+Duktape also provides a number of custom features such as error tracebacks,
+additional data types for better C integration, combined reference counting
+and mark-and sweep garbage collector, object finalizers, co-operative
+threads a.k.a. coroutines, tail calls, built-in logging and module frameworks,
+a built-in debugger protocol, function bytecode dump/load, and so on.
 
 You can browse Duktape programmer's API and other documentation at:
 
@@ -21,6 +23,10 @@ You can browse Duktape programmer's API and other documentation at:
 In particular, you should read the getting started section:
 
 * http://duktape.org/guide.html#gettingstarted
+
+More examples and how-to articles are in the Duktape Wiki:
+
+* http://wiki.duktape.org/
 
 Building and integrating Duktape into your project is very straightforward:
 
@@ -52,10 +58,17 @@ To build an example command line tool, use the following::
 
 This distributable contains:
 
-* ``src/``: main Duktape library in a "single file" format (duktape.c and
-  duktape.h)
+* ``src/``: main Duktape library in a "single source file" format (duktape.c,
+  duktape.h, and duk_config.h).
+
+* ``src-noline/``: contains a variant of ``src/duktape.c`` with no ``#line``
+  directives which is preferable for some users.  See discussion in
+  https://github.com/svaarala/duktape/pull/363.
 
 * ``src-separate/``: main Duktape library in multiple files format.
+
+* ``config/``: genconfig utility for creating duk_config.h configuration
+  files, see: http://wiki.duktape.org/Configuring.html.
 
 * ``examples/``: further examples for using Duktape.  Although Duktape
   itself is widely portable, some of the examples are Linux only.
@@ -80,14 +93,15 @@ You can find release notes at:
 
 * https://github.com/svaarala/duktape/blob/master/RELEASES.rst
 
-This distributable contains Duktape version 1.2.1, created from git
-commit 74bd1c845e5198b5e2d6cb7c98e54c3af1d6c0e4 (v1.2.1).
+This distributable contains Duktape version 1.4.0, created from git
+commit cad6f595382a0cc1a7e4207794ade5be11b3e397 (v1.4.0).
 
 Duktape is copyrighted by its authors (see ``AUTHORS.rst``) and licensed
-under the MIT license (see ``LICENSE.txt``).  MurmurHash2 is used internally,
-it is also under the MIT license.  Duktape module loader is based on the
-CommonJS module loading specification (without sharing any code), CommonJS
-is under the MIT license.
+under the MIT license (see ``LICENSE.txt``).  String hashing algorithms are
+based on the algorithm from Lua (MIT license), djb2 hash, and Murmurhash2
+(MIT license).  Duktape module loader is based on the CommonJS module
+loading specification (without sharing any code), CommonJS is under the
+MIT license.
 
 Have fun!
 
